@@ -1,5 +1,6 @@
 package co.edu.uptc.structures;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -15,8 +16,17 @@ public class SimpleList <T> implements List<T> {
     
     @Override//1
     public int size() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'size'");
+       int sizeOfList = 0;
+        if(!isEmpty()){
+            Node aux = head;
+            while(aux != null){
+            sizeOfList += 1;
+            aux = aux.getNext();
+        }
+        
+    }
+    return sizeOfList;
+        
     }
 
     @Override//2
@@ -26,9 +36,19 @@ public class SimpleList <T> implements List<T> {
 
     @Override//3
     public boolean contains(Object o) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'contains'");
+        boolean thereIsElement= false;
+
+        if(!isEmpty()){
+            Node aux = head;
+            while(aux != null){
+            if(aux.getData().equals(o))
+            thereIsElement = true;
+           aux = aux.getNext();
+        }
     }
+    
+    return thereIsElement;
+}
 
     @Override//4
     public Iterator iterator() {
@@ -38,8 +58,18 @@ public class SimpleList <T> implements List<T> {
 
     @Override//5
     public Object[] toArray() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toArray'");
+        Object[] arrayObjects = new Object[size()];
+        int index = 0;
+ 
+        if(!isEmpty()){
+         Node aux = head;
+         while(aux != null){
+        arrayObjects[index] = aux.getData();
+        index++;
+        aux = aux.getNext();
+     } 
+ }
+  return arrayObjects;
     }
 
     @Override//6
@@ -50,14 +80,45 @@ public class SimpleList <T> implements List<T> {
 
     @Override//7
     public boolean add(Object e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
+        boolean objectAdded = false;
+        if(isEmpty()){
+            head = new Node(e);
+            objectAdded = true;
+        }else{
+            Node aux = head;
+            while(aux.getNext() != null){
+                aux = aux.getNext();
+            }
+            aux.setNext(new Node(e));
+            objectAdded = true;}
+        return objectAdded;
     }
   
     @Override//8
     public boolean remove(Object o) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+        boolean removed = false;
+        if(isEmpty()){
+            return removed;
+        }if(head.getData().equals(o)){
+            head = head.getNext();
+            removed = true;
+        }else{
+            removed = removeFromBody(o);
+        }
+           return removed;
+   }
+
+     private boolean removeFromBody(Object o) {
+            Node aux = head;
+        
+        while (aux.getNext() != null) {
+            if (aux.getNext().getData().equals(o)) {
+                aux.setNext(aux.getNext().getNext()); 
+                return true; 
+            }
+                aux = aux.getNext();
+       }
+            return false; 
     }
 
     @Override//9
@@ -92,14 +153,23 @@ public class SimpleList <T> implements List<T> {
 
     @Override//14
     public void clear() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clear'");
+       head = null;
     }
 
     @Override//15
-    public Object get(int index) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
+    public T get(int index) {
+        int counter = 0;
+        T toReturn = null;
+        if(index <0 )
+        return null;
+        Node aux = head;
+        while (aux != null) {
+            if (counter == index) 
+            toReturn = (T) aux.getData();
+            aux = aux.getNext();
+            counter++;
+        }
+      return toReturn;
     }
 
     @Override//16
@@ -115,7 +185,7 @@ public class SimpleList <T> implements List<T> {
     }
 
     @Override//18
-    public Object remove(int index) {
+    public T remove(int index) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'remove'");
     }
@@ -149,3 +219,5 @@ public class SimpleList <T> implements List<T> {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'subList'");
     }
+
+}
