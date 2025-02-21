@@ -52,8 +52,18 @@ public class SimpleList <T> implements List<T> {
 
     @Override//4
     public Iterator iterator() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'iterator'");
+        Iterator<T> iterator= new Iterator<T>(){
+            Node aux=head;
+            @Override
+            public boolean hasNext() {
+                return aux != null;} 
+            @Override
+            public T next() {
+                T  nextObject = (T) aux.getData();
+                aux = aux.getNext();
+                return nextObject;}
+        };
+        return iterator;
     }
 
     @Override//5
@@ -83,8 +93,7 @@ public class SimpleList <T> implements List<T> {
         boolean objectAdded = false;
         if(isEmpty()){
             head = new Node(e);
-            objectAdded = true;
-        }else{
+            objectAdded = true;}else{
             Node aux = head;
             while(aux.getNext() != null){
                 aux = aux.getNext();
@@ -174,32 +183,81 @@ public class SimpleList <T> implements List<T> {
 
     @Override//16
     public Object set(int index, Object element) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'set'");
+        Node aux=head;
+        T delete=null;
+        if(0 == index) {
+            delete=(T) head.getData();
+            head.setData(element);}else{
+        for (int inde = 0; aux != null; inde++) {
+            if (inde == index) {
+                delete=(T) aux.getData();
+                aux.setData(element);}
+            aux=aux.getNext();
+        } } 
+        return delete;
     }
 
     @Override//17
     public void add(int index, Object element) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
+        Node aux=head;
+        Node aux2=aux;
+        if(0 == index) {
+            head=new Node(element);  
+            head.setNext(aux);}else{
+            for (int inde = 0; aux != null; inde++) {
+                if (inde == index) {
+                    aux2.setNext(new Node(element));
+                    aux2.getNext().setNext(aux);} 
+                aux2=aux;
+                aux=aux.getNext();
+            }
+        }
     }
 
     @Override//18
     public T remove(int index) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+        Node aux=head;
+        Node aux2= new Node<T>();
+        T delete=null;
+        if(0 == index) {
+            delete=(T) aux.getData();
+            aux=aux.getNext();
+            head=aux;}else{
+        for (int inde = 0; aux != null; inde++) {
+            if (inde == index) {
+                aux2.setNext(aux.getNext());
+                delete=(T) aux.getData();}
+                aux2=aux;
+                aux=aux.getNext();}}
+        return delete;
     }
 
     @Override//19
     public int indexOf(Object o) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'indexOf'");
+        Node aux = head;
+        int index=-1;
+        int x=0;
+        for(int i=0; aux != null && x==0; i++){
+            if(aux.getData().equals(o)){
+                index=i;
+                x=1;
+            }
+            aux = aux.getNext();
+        }
+        return index;
     }
 
     @Override//20
     public int lastIndexOf(Object o) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'lastIndexOf'");
+        Node aux = head;
+        int index=-1;
+        for(int i=0; aux != null; i++){
+            if(aux.getData().equals(o)){
+                index=i;
+            }
+            aux = aux.getNext();
+        }
+        return index;
     }
 
     @Override//21
